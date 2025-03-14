@@ -117,6 +117,9 @@ const removeTodo = (id) => {
               autofocus
             />
           </div>
+          <div v-show="editId === todo.id" class="text-center">
+            Please write an update
+          </div>
           <div class="text-xs font-bold tracking-widest self-end">
             {{ todo.timestamp }}
           </div>
