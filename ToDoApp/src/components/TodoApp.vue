@@ -28,7 +28,7 @@ const removeTodo = (id) => {
   <main
     class="flex flex-col items-center justify-center min-h-screen w-full px-4 bg-black text-white"
   >
-    <div class="w-full max-w-[500px] p-6 rounded-lg shadow-lg">
+    <div class="w-full max-w-[500px] p-6 rounded-lg">
       <img
         src="/public/phCollablogo.jpg"
         alt="logo"
@@ -62,6 +62,9 @@ const removeTodo = (id) => {
       <div
         class="mt-4 border border-white flex flex-col p-2 max-h-[350px] overflow-auto"
       >
+        <div v-if="todos.length === 0" class="text-center">
+          Nothing to display
+        </div>
         <div
           v-for="(todo, index) in todos"
           :key="todo.id"
