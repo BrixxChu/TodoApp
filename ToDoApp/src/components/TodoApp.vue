@@ -67,9 +67,11 @@ const removeTodo = (id) => {
           :key="todo.id"
           class="p-2 border-b-2 border-white flex flex-col items-start"
         >
+          <div class="text-xs font-bold text-white">TODO #{{ index + 1 }}</div>
+
           <button
             @click="removeTodo(todo.id)"
-            class="text-red-500 text-lg font-bold self-end mt-2"
+            class="text-white text-lg self-end mt-2"
           >
             ✖
           </button>
