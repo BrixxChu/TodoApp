@@ -4,6 +4,8 @@ import { ref } from "vue";
 const newTodo = ref("");
 const todos = ref([]);
 const error = ref("");
+const editId = ref(null);
+const editedText = ref("");
 
 const addTodo = () => {
   if (!newTodo.value.trim()) {
@@ -17,6 +19,25 @@ const addTodo = () => {
   });
   newTodo.value = "";
   error.value = "";
+};
+
+const startEditing = (todo) => {
+  editId.value = todo.id;
+  editedText.value = todo.text;
+};
+
+const saveTodo = (todo) => {
+  if (!editedText.value.trim()) {
+    editId.value = null;
+    return;
+  }
+
+  const index = todos.value.findIndex((t) => t.id === todo.id);
+  if (index !== -1) {
+    todos.value[index].text = editedText.value;
+  }
+
+  editId.value = null;
 };
 
 const removeTodo = (id) => {
@@ -62,7 +83,7 @@ const removeTodo = (id) => {
       <div
         class="mt-4 border border-white flex flex-col p-2 max-h-[350px] overflow-auto"
       >
-        <div v-if="todos.length === 0" class="text-center">
+        <div v-show="todos.length === 0" class="text-center">
           Nothing to display
         </div>
         <div
@@ -79,7 +100,22 @@ const removeTodo = (id) => {
             ✖
           </button>
           <div class="mb-2 text-sm flex flex-row w-full">
-            <p class="break-all mb-3 w-full cursor-pointer">{{ todo.text }}</p>
+            <p
+              v-if="editId !== todo.id"
+              @click="startEditing(todo)"
+              class="break-all mb-3 w-full cursor-pointer"
+            >
+              {{ todo.text }}
+            </p>
+
+            <input
+              v-else
+              v-model="editedText"
+              @blur="saveTodo(todo)"
+              @keyup.enter="saveTodo(todo)"
+              class="w-full px-2 py-1 text-black rounded-md"
+              autofocus
+            />
           </div>
           <div class="text-xs font-bold tracking-widest self-end">
             {{ todo.timestamp }}
